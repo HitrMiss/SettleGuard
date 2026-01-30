@@ -1,0 +1,45 @@
+#copied off the internet ;)
+# --- System Files ---
+.DS_Store
+Thumbs.db
+
+# --- Svelte / Node.js (Frontend & Hardhat) ---
+node_modules/
+.svelte-kit/
+build/
+dist/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vercel
+
+# --- Go (Backend) ---
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+out/
+
+# --- Blockchain (Hardhat / Foundry) ---
+artifacts/
+cache/
+typechain/
+typechain-types/
+coverage/
+coverage.json
+.openzeppelin/
+
+# Foundry specific
+out/
+cache/
+
+# --- Secret Management ---
+secrets.json
+*.key
+*.pe
