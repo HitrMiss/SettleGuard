@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.33;
 
+import "./IGovernance.sol";
 import "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
 
-contract Governance is AccessControlEnumerable {
+contract Governance is IGovernance, AccessControlEnumerable {
     bytes32 public constant GOVERNANCE_ADMIN_ROLE = keccak256("GOVERNANCE_ADMIN_ROLE");
     bytes32 public constant ARBITER_ROLE          = keccak256("ARBITER_ROLE");
 
