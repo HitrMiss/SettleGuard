@@ -4,6 +4,8 @@ pragma solidity ^0.8.33;
 
 import "./IGovernance.sol";
 import "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
+// Add baggage it's least it not emotional?
+import "@openzeppelin/contracts/access/IAccessControl.sol";
 
 contract Governance is IGovernance, AccessControlEnumerable {
     bytes32 public constant GOVERNANCE_ADMIN_ROLE = keccak256("GOVERNANCE_ADMIN_ROLE");
@@ -21,11 +23,11 @@ contract Governance is IGovernance, AccessControlEnumerable {
     error RemainingAdminTooNew(uint64 addedAt, uint64 nowTs, uint64 minAge);
     error MinAgeTooLarge(uint64 provided);
 
-    constructor(address[] memory coldWalletAdmins) {
-        if (coldWalletAdmins.length == 0) revert EmptyColdWalletAdmins();
+    constructor(address[] memory _governanceAdmins, uint64 _minSoleAdminAgeSeconds) {
+        if (_governanceAdmins.length == 0) revert EmptyGovernanceAdmins();
 
         // Default to 7 days if caller passes 0.
-        uint64 minAge = minSoleAdminAgeSeconds == 0 ? uint64(7 days) : minSoleAdminAgeSeconds;
+        uint64 minAge = _minSoleAdminAgeSeconds == 0 ? uint64(7 days) : _minSoleAdminAgeSeconds;
         // Just in case someone gets cheeky
         if (minAge > uint64(365 days)) revert MinAgeTooLarge(minAge);
 
@@ -40,11 +42,16 @@ contract Governance is IGovernance, AccessControlEnumerable {
         _setRoleAdmin(ARBITER_ROLE, GOVERNANCE_ADMIN_ROLE);
 
         // In practice this should be a Safe multi-sig wallet
-        for (uint256 i = 0; i < coldWalletAdmins.length; i++) {
-            address admin = coldWalletAdmins[i];
+        for (uint256 i = 0; i < _governanceAdmins.length; i++) {
+            address admin = _governanceAdmins[i];
             if (admin == address(0)) revert ZeroAddress();
             _grantRole(GOVERNANCE_ADMIN_ROLE, admin);
         }
+    }
+
+    // External Get-er Done
+    function getAdminAddedAt(address _admin) external view returns (uint64) {
+        return governanceAdminAddedAt[_admin];
     }
 
     // Arbiter list (Only changes via in practice multisig governance role)
@@ -86,4 +93,33 @@ contract Governance is IGovernance, AccessControlEnumerable {
 
         _revokeRole(GOVERNANCE_ADMIN_ROLE, admin);
     }
+
+    // Who needs sleep, never gonna get it
+    // Full House was an okay show... now with interfaces *Spoke in Ron Popeil style delivery*
+    // Wait theres more!!! Diamonds
+    /**
+     * @dev I blame Hard Hat!
+     */
+    function hasRole(bytes32 _role, address _account)
+    public
+    view
+    virtual
+    override(AccessControl, IAccessControl, IGovernance)
+    returns (bool)
+    {
+        return super.hasRole(_role, _account);
+    }
+    /**
+     * @dev See Above?
+     */
+    function supportsInterface(bytes4 _interfaceId)
+    public
+    view
+    virtual
+    override(AccessControlEnumerable)
+    returns (bool)
+    {
+        return super.supportsInterface(_interfaceId);
+    }
+
 }
