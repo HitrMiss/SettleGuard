@@ -14,7 +14,7 @@ contract CategoryRegistry {
         uint16 multiplierBps;       // Basis points; Examples: 10000 = 1x, 20000 = 2x
         uint32 minHoldSecs;         // Minimum hold time; e.g 30 minutes for food (not less)
         uint32 maxHoldSecs;         // Maximum hold time; e.g 12 hours for food (catering? extreme farm to table?)
-        uint32 bufferSecs;          // grace period
+        uint32 bufferSecs;          // grace period, in case ❄️ Fern ❄️ comes back
         uint32 formulaParam;        // Not used at release, added since we have the space
     }
 
@@ -76,10 +76,9 @@ contract CategoryRegistry {
         {
             revert ZeroId();
         }
-
         _validate(_rule);
 
-        if (_rules[_id].minHoldSecs == 0) {
+        if (!_rules[id].existence) {
             categoryList.push(_id);
         }
 
