@@ -78,7 +78,7 @@ contract CategoryRegistry {
         }
         _validate(_rule);
 
-        if (!_rules[id].existence) {
+        if (!_rules[_id].existence) {
             categoryList.push(_id);
         }
 
