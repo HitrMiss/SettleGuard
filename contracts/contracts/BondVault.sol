@@ -12,9 +12,11 @@ contract BondVault is IBondVault, ReentrancyGuard {
 
     IGovernance public immutable governance;
     IERC20 public immutable usdc;
+    address public settlementEngine;
 
     mapping(address => uint256) public bonds;
     mapping(address => uint64)  public unlockAt;
+    mapping(address => uint256) public lockedRisk;
 
     uint64 public constant DEPOSIT_LOCK_SECS = 7 days;
     uint64 public constant CLAIM_MIN_AGE = 1 minutes;
@@ -25,6 +27,7 @@ contract BondVault is IBondVault, ReentrancyGuard {
         uint64  requestedAt;
     }
     mapping(address => WithdrawClaim) public withdrawClaims;
+
 
     address public immutable feeRecipient;
     uint64  public immutable withdrawFeeBps;
@@ -39,6 +42,7 @@ contract BondVault is IBondVault, ReentrancyGuard {
     error NoWithdrawRequest();
     error RequestExceedsBond();
     error ClaimTooFresh(uint256 readyAt);
+    error OnlyEngine();
 
     event Deposited(address indexed user, uint256 amount, uint64 unlockAt);
     event Withdrawn(address indexed user, uint256 amount, uint256 fee);
@@ -62,6 +66,24 @@ contract BondVault is IBondVault, ReentrancyGuard {
         feeRecipient = _feeRecipient;
         withdrawFeeBps = _withdrawFeeBps;
         withdrawFlatFee = _withdrawFlatFee;
+    }
+
+    modifier onlyEngine() {
+        if (msg.sender != settlementEngine) revert OnlyEngine();
+        _;
+    }
+
+    function lockRisk(address _merchant, uint256 _amount) external onlyEngine {
+        if (bonds[_merchant] - lockedRisk[_merchant] < _amount) revert InsufficientBond();
+        lockedRisk[_merchant] += _amount;
+    }
+
+    function unlockRisk(address _merchant, uint256 _amount) external onlyEngine {
+        lockedRisk[_merchant] -= _amount;
+    }
+
+    function getAvailableBond(address _merchant) public view override returns (uint256) {
+        return bonds[_merchant] - lockedRisk[_merchant];
     }
 
     function getActiveBond(address _party) external view override returns (uint256) {
@@ -201,5 +223,11 @@ contract BondVault is IBondVault, ReentrancyGuard {
 
         usdc.safeTransfer(_recipient, amountToSlash);
         emit Slashed(_user, _recipient, amountToSlash, msg.sender);
+    }
+
+    function setSettlementEngine(address _newEngine) external {
+        if (!governance.hasRole(governance.GOVERNANCE_ADMIN_ROLE(), msg.sender)) revert Unauthorized();
+        if (_newEngine == address(0)) revert ZeroAddress();
+        settlementEngine = _newEngine;
     }
 }

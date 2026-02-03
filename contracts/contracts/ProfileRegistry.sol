@@ -2,8 +2,9 @@
 pragma solidity ^0.8.33;
 
 import "./IGovernance.sol";
-//TODO: DO NOT USE, I REALLY NEED SLEEP
-contract ProfileRegistry {
+import  "./IProfileRegistry.sol";
+
+contract ProfileRegistry is IProfileRegistry {
     IGovernance public immutable governance;
 
     //TODO: Check the gas add up
@@ -18,10 +19,17 @@ contract ProfileRegistry {
 
     mapping(address => WalletProfile) public profiles;
 
+    event ProfileUpdated(address indexed wallet, uint8 newScore);
+
     constructor(address _gov) { governance = IGovernance(_gov); }
 
-    function updateScore(address _user, uint8 _score) external {
-        if (!governance.hasRole(governance.ARBITER_ROLE(), msg.sender)) revert Unauthorized();
-        profiles[_user].trustScore = _score;
+    function getScore(address _wallet) external view override returns (uint256) {
+        return uint256(profiles[_wallet].trustScore);
+    }
+
+    function setScore(address _wallet, uint8 _score) external {
+        if (!governance.hasRole(governance.ARBITER_ROLE(), msg.sender)) revert ("Unauthorized");
+        profiles[_wallet].trustScore = _score;
+        emit ProfileUpdated(_wallet, _score);
     }
 }
