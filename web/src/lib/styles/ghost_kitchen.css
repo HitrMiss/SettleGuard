@@ -1,0 +1,238 @@
+@import "tailwindcss";
+/*
+  Ghost Kitchen+ UI � styled to match hitrmss.com:
+  - disciplined dark
+  - thin borders, low-gloss surfaces
+  - one quiet accent
+  - clean typography + spacing
+*/
+
+:root {
+    color-scheme: dark;
+
+    /* Background */
+    --bg: 8 10 14;          /* near-black navy */
+    --bg2: 10 12 16;        /* slight lift */
+
+    /* Surfaces */
+    --surface: 12 15 20;    /* panel */
+    --surface2: 10 13 18;   /* subtle */
+    --border: 255 255 255;
+
+    /* Text */
+    --text: 235 240 248;
+    --muted: 150 160 176;
+
+    /* Accent (single accent like HitrMiss CTA feel) */
+    --accent: 94 234 212;   /* teal-mint */
+    --accent2: 120 169 255; /* optional tiny secondary if needed */
+    --danger: 248 113 113;
+
+    --radius: 18px;
+}
+
+body {
+    @apply antialiased;
+    color: rgb(var(--text));
+
+    background:
+            radial-gradient(900px 600px at 14% -10%, rgba(94,234,212,0.08), transparent 60%),
+            radial-gradient(900px 600px at 95% 0%, rgba(120,169,255,0.05), transparent 60%),
+            linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+}
+
+.container {
+    @apply mx-auto max-w-6xl px-4;
+}
+
+/* Typography */
+.kicker {
+    @apply text-xs uppercase tracking-widest;
+    color: rgba(150,160,176,0.85);
+}
+.h1 {
+    @apply text-3xl sm:text-5xl font-semibold tracking-tight;
+}
+.h2 {
+    @apply text-xl sm:text-2xl font-semibold tracking-tight;
+}
+.h3 {
+    @apply text-lg font-semibold tracking-tight;
+}
+.muted { color: rgb(var(--muted)); }
+
+/* Rhythm */
+.section { @apply py-10 sm:py-14; }
+.hr { @apply border-t; border-color: rgba(var(--border), 0.10); }
+
+.rail {
+    height: 1px;
+    background: linear-gradient(
+            90deg,
+            rgba(94,234,212,0.45),
+            rgba(255,255,255,0.06),
+            rgba(120,169,255,0.25)
+    );
+}
+
+/* Surfaces */
+.shell {
+    border-radius: var(--radius);
+    background: rgba(var(--surface2), 0.55);
+    border: 1px solid rgba(var(--border), 0.10);
+}
+
+.card {
+    border-radius: var(--radius);
+    background: rgba(var(--surface), 0.55);
+    border: 1px solid rgba(var(--border), 0.10);
+}
+
+.card-soft {
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(var(--border), 0.10);
+}
+
+/* Links + nav */
+.navlink {
+    @apply text-sm font-semibold transition;
+    color: rgba(235,240,248,0.9);
+}
+.navlink:hover { color: rgb(var(--text)); }
+.navlink-muted {
+    @apply text-sm font-semibold transition;
+    color: rgba(150,160,176,0.95);
+}
+.navlink-muted:hover { color: rgba(235,240,248,0.9); }
+
+/* Buttons (HitrMiss-like: restrained) */
+.btn {
+    @apply inline-flex items-center justify-center font-semibold transition active:scale-[0.99];
+    border-radius: calc(var(--radius) - 6px);
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(var(--border), 0.12);
+    color: rgb(var(--text));
+}
+.btn:hover { background: rgba(255,255,255,0.06); }
+
+.btn-primary {
+    @apply inline-flex items-center justify-center font-semibold transition active:scale-[0.99];
+    border-radius: calc(var(--radius) - 6px);
+    padding: 10px 16px;
+    background: rgba(var(--accent), 0.95);
+    color: rgb(8 10 14);
+    border: 1px solid rgba(var(--accent), 0.70);
+}
+.btn-primary:hover { filter: brightness(1.03); }
+
+.btn-quiet {
+    @apply inline-flex items-center justify-center font-semibold transition;
+    border-radius: calc(var(--radius) - 6px);
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid rgba(var(--border), 0.0);
+    color: rgba(235,240,248,0.88);
+}
+.btn-quiet:hover {
+    border-color: rgba(var(--border), 0.10);
+    background: rgba(255,255,255,0.03);
+}
+
+.btn-danger {
+    @apply inline-flex items-center justify-center font-semibold transition active:scale-[0.99];
+    border-radius: calc(var(--radius) - 6px);
+    padding: 10px 14px;
+    background: rgba(var(--danger), 0.14);
+    border: 1px solid rgba(var(--danger), 0.28);
+    color: rgb(var(--text));
+}
+
+.btn:disabled, .btn-primary:disabled, .btn-quiet:disabled, .btn-danger:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Inputs */
+.input {
+    @apply w-full outline-none transition;
+    border-radius: calc(var(--radius) - 6px);
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.24);
+    border: 1px solid rgba(var(--border), 0.12);
+    color: rgb(var(--text));
+}
+.input:focus {
+    border-color: rgba(var(--accent), 0.45);
+    box-shadow: 0 0 0 3px rgba(var(--accent), 0.12);
+}
+.input::placeholder { color: rgba(150,160,176,0.65); }
+
+/* Pills / badges (quiet) */
+.pill {
+    @apply inline-flex items-center gap-2 text-sm font-semibold whitespace-nowrap transition;
+    border-radius: 999px;
+    padding: 8px 12px;
+    border: 1px solid rgba(var(--border), 0.12);
+    background: rgba(255,255,255,0.03);
+    color: rgba(235,240,248,0.90);
+}
+.pill:hover { border-color: rgba(var(--accent), 0.28); }
+.pill-active {
+    border-color: rgba(var(--accent), 0.38);
+    background: rgba(var(--accent), 0.10);
+    color: rgb(var(--text));
+}
+.badge {
+    @apply inline-flex items-center gap-2 text-xs;
+    border-radius: 999px;
+    padding: 6px 10px;
+    border: 1px solid rgba(var(--border), 0.12);
+    background: rgba(255,255,255,0.03);
+    color: rgba(235,240,248,0.88);
+}
+
+/* Logo mark */
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(var(--border), 0.12);
+    background: rgba(255,255,255,0.03);
+    display: grid;
+    place-items: center;
+}
+
+/* Menu thumb (subtle, not neon) */
+.thumb {
+    border-radius: calc(var(--radius) - 6px);
+    border: 1px solid rgba(var(--border), 0.10);
+    background:
+            radial-gradient(140px 80px at 25% 30%, rgba(var(--accent), 0.10), transparent 68%),
+            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+}
+
+/* Drawer */
+.drawer-overlay {
+    @apply fixed inset-0 z-40;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(8px);
+}
+.drawer {
+    @apply fixed top-0 right-0 h-full z-50 w-[26rem] max-w-[92vw];
+    background: rgba(8, 10, 14, 0.96);
+    border-left: 1px solid rgba(var(--border), 0.12);
+}
+.drawer-header { @apply p-4 border-b flex items-center justify-between; border-color: rgba(var(--border), 0.10); }
+.drawer-body { @apply p-4 overflow-auto; }
+.drawer-footer { @apply p-4 border-t; border-color: rgba(var(--border), 0.10); }
+
+/* Mobile order bar */
+.mobile-orderbar {
+    @apply fixed bottom-3 left-1/2 -translate-x-1/2 z-30 w-[min(560px,calc(100vw-24px))];
+}
+.mobile-orderbar-inner {
+    @apply px-3 py-2 flex items-center justify-between gap-2;
+    background: rgba(12,15,20,0.78);
+    backdrop-filter: blur(10px);
+}
