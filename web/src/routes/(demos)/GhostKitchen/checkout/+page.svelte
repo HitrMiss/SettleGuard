@@ -67,14 +67,14 @@
 <div class="grid gap-6">
   <div>
     <h1 class="h2">Checkout</h1>
-    <div class="muted text-sm mt-1">Ghost Kitchen+ • place an order, then report an issue to demo SettleGuard</div>
+    <div class="muted text-sm mt-1">Ghost Kitchen+ - place an order, then report an issue to demo SettleGuard</div>
   </div>
 
   <div class="grid gap-6 md:grid-cols-[1fr_0.8fr]">
     <div class="card p-6 space-y-5">
       <div class="surface p-4">
         <div class="font-semibold">Delivery details</div>
-        <div class="muted text-sm mt-1">Keep it simple — this is a demo flow.</div>
+        <div class="muted text-sm mt-1">Keep it simple - this is a demo flow.</div>
 
         <div class="mt-4 grid gap-3">
           <label class="block">
@@ -107,24 +107,24 @@
 
       {#if error}
         <div class="surface p-4 border border-red-500/30">
-          <div class="text-red-300 font-semibold">Couldn’t place order</div>
+          <div class="text-red-300 font-semibold">Couldn't place order</div>
           <div class="text-red-200/90 text-sm mt-1">{error}</div>
         </div>
       {/if}
 
       <button class="btn w-full" disabled={busy || $cart.length === 0} on:click={placeOrder}>
-        {busy ? 'Placing order…' : 'Place order'}
+        {busy ? 'Placing order...' : 'Place order'}
       </button>
 
       <div class="muted text-xs">
-        Demo behavior: payment “executes instantly,” but final settlement may require approval depending on risk.
+        Demo behavior: payment "executes instantly," but final settlement may require approval depending on risk.
       </div>
     </div>
 
     <aside class="card p-6">
       <div class="font-semibold">Receipt</div>
       <div class="muted text-sm mt-1">
-        ETA {restaurant.etaMin}-{restaurant.etaMax} min • Fees are fixed demo values
+        ETA {restaurant.etaMin}-{restaurant.etaMax} min - Fees are fixed demo values
       </div>
 
       <div class="mt-4 space-y-3">
@@ -142,7 +142,7 @@
             <div class="mt-3 space-y-2 text-sm">
               {#each $cart as it}
                 <div class="flex justify-between gap-3">
-                  <span class="muted">{it.qty}× {it.name}</span>
+                  <span class="muted">{it.qty}x {it.name}</span>
                   <span>${(it.price * it.qty).toFixed(2)}</span>
                 </div>
               {/each}

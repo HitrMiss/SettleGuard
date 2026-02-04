@@ -17,10 +17,10 @@
   }
 </script>
 
-<div class="shell p-5">
+<div class="card-soft p-5">
   <div class="flex items-center justify-between gap-3">
     <div>
-      <div class="font-semibold text-lg">Your order</div>
+      <div class="font-extrabold text-lg">Your order</div>
       <div class="muted text-sm">{count} item(s)</div>
     </div>
     <a class="btn-quiet" href="/cart">Edit</a>
@@ -36,10 +36,10 @@
         <div class="card-soft p-3">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <div class="font-semibold truncate">{item.qty}× {item.name}</div>
+              <div class="font-extrabold truncate">{item.qty}x {item.name}</div>
               <div class="muted text-xs">${item.price.toFixed(2)} each</div>
             </div>
-            <button class="btn-danger" on:click={() => cart.remove(item.id)}>Remove</button>
+            <button class="btn btn-danger" on:click={() => cart.remove(item.id)} type="button">Remove</button>
           </div>
 
           <div class="mt-2 flex items-center justify-between">
@@ -59,22 +59,19 @@
     <div class="hr mt-4"></div>
 
     <div class="mt-4 text-sm space-y-2">
-      <div class="flex justify-between"><span class="muted">Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-      <div class="flex justify-between"><span class="muted">Delivery</span><span>${delivery.toFixed(2)}</span></div>
-      <div class="flex justify-between"><span class="muted">Service</span><span>${service.toFixed(2)}</span></div>
+      <div class="flex justify-between"><span class="muted">Subtotal</span><span class="font-extrabold">${subtotal.toFixed(2)}</span></div>
+      <div class="flex justify-between"><span class="muted">Delivery</span><span class="font-extrabold">${delivery.toFixed(2)}</span></div>
+      <div class="flex justify-between"><span class="muted">Service</span><span class="font-extrabold">${service.toFixed(2)}</span></div>
 
-      <div class="hr pt-3 mt-3 flex justify-between font-semibold text-base">
+      <div class="hr mt-3"></div>
+
+      <div class="pt-2 flex justify-between font-extrabold text-base">
         <span>Estimated total</span><span>${estTotal.toFixed(2)}</span>
       </div>
     </div>
 
-    <button class="btn-primary w-full mt-4" on:click={() => to('/checkout')}>
+    <button class="btn btn-primary w-full mt-4" on:click={() => to('/GhostKitchen/checkout')} type="button">
       Checkout
     </button>
-
-    <div class="badge mt-3">
-      <span class="font-semibold" style="color: rgb(var(--accent));">Demo</span>
-      <span class="muted">Use “Report issue” post-checkout to show resolution.</span>
-    </div>
   {/if}
 </div>
