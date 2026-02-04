@@ -1,5 +1,21 @@
 # Instructions
-## Enviroment Setup
+## Environment Setup
+
+### .ENV file
+Create a new file called ".env" in root of this folder  
+File contents: 
+```
+ALCHEMY_API_KEY={YOUR DEV KEY}  
+BLOCKCHAIN=eth-mainnet
+```
+"BLOCKCHAIN" values used by project currently
+```
+eth-sepolia       - TestNet
+eth-mainnet       - Ethereum Mainnet
+polygon-amoy      - Polygon Mainnet
+polygon-mainnet   - Mainnet
+```
+
 ### Linux
 If eth is not installed  
 `sudo scripts/install_solc.sh`
