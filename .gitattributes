@@ -1,0 +1,16 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Explicitly declare text files to always use LF (Linux/Unix style)
+*.go text eol=lf
+*.sol text eol=lf
+*.ps1 text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Explicitly declare binary files (Git won't touch these)
+*.png binary
+*.jpg binary
+*.exe binary
