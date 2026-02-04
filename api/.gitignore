@@ -1,0 +1,4 @@
+# api/.gitignore
+/bin/
+/internal/contract/*.abi
+/internal/contract/*.bin
