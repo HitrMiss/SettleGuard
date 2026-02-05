@@ -11,6 +11,8 @@ import (
 func main() {
 	// Define the checkout route
 	http.HandleFunc("/api/checkout", enableCORS(api.HandleCheckout))
+	http.HandleFunc("/api/get-nonce", enableCORS(api.HandleGetNonce))
+	http.HandleFunc("/api/verify", enableCORS(api.HandleVerifySignature))
 
 	port := ":8080"
 	fmt.Printf("🚀 (to the moon) SettleGuard API Server running on http://localhost%s\n", port)
