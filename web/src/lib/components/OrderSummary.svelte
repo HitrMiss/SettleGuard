@@ -8,8 +8,10 @@
   $: subtotal = $cartSubtotal;
   $: count = $cartCount;
 
-  const delivery = restaurant.deliveryFee;
+  const FREE_DELIVERY_THRESHOLD = 35;
   const service = restaurant.serviceFee;
+  $: baseDelivery = Number(restaurant.deliveryFee ?? 0);
+  $: delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : baseDelivery;
   $: estTotal = subtotal + delivery + service;
 
   function to(path) {

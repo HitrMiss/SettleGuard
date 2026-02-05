@@ -37,7 +37,7 @@
   <footer class="container pb-10">
     <div class="hr mt-10"></div>
     <div class="muted text-sm mt-6">
-      Ghost Kitchen+ is a demo storefront used to showcase SettleGuard scam resolution and controlled settlement.
+      Ghost Kitchen+ is a demo storefront used to showcase SettleGuard fraud resolution and controlled settlement.
     </div>
   </footer>
 </div>

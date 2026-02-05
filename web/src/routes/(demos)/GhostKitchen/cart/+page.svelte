@@ -5,13 +5,21 @@
 
   const { restaurant } = menu;
 
-  $: subtotal = $cartSubtotal;
-  $: deliveryFee = restaurant.deliveryFee;
-  $: serviceFee = restaurant.serviceFee;
+  const FREE_DELIVERY_THRESHOLD = 35;
+
+  $: subtotal = Number($cartSubtotal ?? 0);
+
+  // Base fees as numbers
+  $: baseDeliveryFee = Number(restaurant.deliveryFee ?? 0);
+  $: serviceFee = Number(restaurant.serviceFee ?? 0);
+
+  // Waive delivery when subtotal meets threshold
+  $: deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : baseDeliveryFee;
+
   $: estTotal = round2(subtotal + deliveryFee + serviceFee);
 
   function round2(n) {
-    return Math.round(n * 100) / 100;
+    return Math.round((Number(n) + Number.EPSILON) * 100) / 100;
   }
 </script>
 
@@ -19,7 +27,7 @@
   <div class="flex items-end justify-between">
     <div>
       <h1 class="h2">Your cart</h1>
-      <div class="muted text-sm mt-1">Ghost Kitchen+ • demo storefront</div>
+      <div class="muted text-sm mt-1">Ghost Kitchen+ demo storefront</div>
     </div>
     <button class="btn-ghost" on:click={() => cart.clear()} disabled={$cart.length === 0}>Clear</button>
   </div>
@@ -31,7 +39,7 @@
           <div class="font-semibold">Cart is empty</div>
           <div class="muted mt-1">Return to the menu to add items.</div>
           <div class="mt-4">
-            <a class="btn" href="/">Browse menu</a>
+            <a class="btn" href="/GhostKitchen">Browse menu</a>
           </div>
         </div>
       {:else}
@@ -75,7 +83,7 @@
         </div>
       </div>
 
-      <button class="btn w-full mt-5" on:click={() => goto('/checkout')} disabled={$cart.length === 0}>
+      <button class="btn w-full mt-5" on:click={() => goto('/GhostKitchen/checkout')} disabled={$cart.length === 0}>
         Continue to checkout
       </button>
 
