@@ -46,6 +46,7 @@ contract Governance is IGovernance, AccessControlEnumerable {
             address admin = _governanceAdmins[i];
             if (admin == address(0)) revert ZeroAddress();
             _grantRole(GOVERNANCE_ADMIN_ROLE, admin);
+            _grantRole(ARBITER_ROLE, admin);
         }
     }
 
