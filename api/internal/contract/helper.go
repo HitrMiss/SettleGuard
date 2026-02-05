@@ -1,13 +1,14 @@
 package contract
 
 import (
-	"fmt"
 	"math/big"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 )
+
+// internal/contract/helper.go
 
 func EncodePaymentCall(
 	amount *big.Int,
@@ -16,21 +17,18 @@ func EncodePaymentCall(
 	categoryId [32]byte,
 	packetId [32]byte,
 ) (string, error) {
-	parsedABI, err := abi.JSON(strings.NewReader(SettlementEngineMetaData.ABI))
+	parsedABI, err := abi.JSON(strings.NewReader(PaymentVaultMetaData.ABI))
 	if err != nil {
-		return "", fmt.Errorf("failed to parse Settlement Engine ABI: %w", err)
+		return "", err
 	}
 
-	inputData, err := parsedABI.Pack("processPayment",
+	inputData, err := parsedABI.Pack("lockFunds",
+		common.Address{},
 		amount,
 		merchantIdentity,
 		merchantPayout,
 		categoryId,
 		packetId,
 	)
-	if err != nil {
-		return "", fmt.Errorf("failed to pack arguments: %w", err)
-	}
-
-	return "0x" + common.Bytes2Hex(inputData), nil
+	return "0x" + common.Bytes2Hex(inputData), err
 }
