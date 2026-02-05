@@ -49,7 +49,6 @@ contract SettlementEngine is ReentrancyGuard {
     ) external nonReentrant {
         // merchant
         if (profiles.getScore(_merchantIdentity) == 0) {
-            // Ensure Merchant has collateral to cover a potential default/slash
             bondVault.lockRisk(_merchantIdentity, _amount);
         }
         // customer
@@ -57,7 +56,6 @@ contract SettlementEngine is ReentrancyGuard {
             bondVault.lockRisk(msg.sender, _amount);
         }
 
-        // Standard Vault call follows
         vault.lockFunds(msg.sender, _amount, _merchantIdentity, _merchantPayout, _categoryId, _packetId);
     }
 

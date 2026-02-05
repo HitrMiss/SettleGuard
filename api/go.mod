@@ -1,10 +1,9 @@
-module api
+module SettleGuard
 
 go 1.25.6
 
 require (
 	github.com/ethereum/go-ethereum v1.16.8
-	github.com/joho/godotenv v1.5.1
 	github.com/wealdtech/go-ens/v3 v3.6.0
 )
 
