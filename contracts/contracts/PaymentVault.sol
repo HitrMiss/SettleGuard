@@ -41,7 +41,10 @@ contract PaymentVault is IPaymentVault, ReentrancyGuard {
         address _merchantIdentity,
         address _merchantPayout,
         bytes32 _categoryId,
-        bytes32 _packetId
+        bytes32 _packetId,
+        uint64 _createdAt,
+        uint256 _r,
+        uint256 _s
     ) external onlyEngine nonReentrant {
         if (payments[_packetId].status != Status.NONE) revert AlreadyExists();
 
@@ -51,8 +54,10 @@ contract PaymentVault is IPaymentVault, ReentrancyGuard {
             merchantPayout: _merchantPayout,
             amount: _amount,
             categoryId: _categoryId,
-            createdAt: uint64(block.timestamp),
-            status: Status.HELD
+            createdAt: _createdAt,
+            status: Status.HELD,
+            r: _r,
+            s: _s
         });
 
         usdc.safeTransferFrom(_payer, address(this), _amount);
@@ -75,22 +80,26 @@ contract PaymentVault is IPaymentVault, ReentrancyGuard {
 
     function getPaymentDetails(bytes32 _packetId) external view override returns (
         address payer,
-        uint256 amount,
         uint64 createdAt,
+        Status status,
         address merchantIdentity,
-        bytes32 categoryId,
         address merchantPayout,
-        Status status
+        uint256 amount,
+        bytes32 categoryId,
+        uint256 r,
+        uint256 s
     ) {
-        Payment storage p = payments[_packetId];
+        Payment storage p = payments[_packetId]; // Assuming 'payments' is your mapping
         return (
             p.payer,
-            p.amount,
             p.createdAt,
+            p.status,
             p.merchantIdentity,
-            p.categoryId,
             p.merchantPayout,
-            p.status
+            p.amount,
+            p.categoryId,
+            p.r,
+            p.s
         );
     }
 

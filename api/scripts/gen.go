@@ -17,14 +17,42 @@ func main() {
 	scriptDir := filepath.Dir(filename)
 	apiDir := filepath.Join(scriptDir, "..")
 
+	contractsRoot := filepath.Join(scriptDir, "..", "contracts") // Points to /contracts
+	apiDir = filepath.Join(scriptDir, "..")                      // Points to /api
+	outDir := filepath.Join(apiDir, "internal", "contract")
+
+	configFileName := "backend_config.json"
+	srcConfig := filepath.Join(contractsRoot, configFileName)
+	dstConfig := filepath.Join(outDir, configFileName)
+
+	if _, err := os.Stat(srcConfig); err == nil {
+		fmt.Printf("[+] Syncing %s to API internal...\n", configFileName)
+
+		// Read source
+		input, err := os.ReadFile(srcConfig)
+		if err != nil {
+			fmt.Printf("    - Error reading config: %v\n", err)
+		} else {
+			// Write to destination
+			err = os.WriteFile(dstConfig, input, 0644)
+			if err != nil {
+				fmt.Printf("    - Error writing config: %v\n", err)
+			} else {
+				fmt.Println("    - Sync Success.")
+			}
+		}
+	} else {
+		fmt.Printf("[!] Warning: %s not found in contracts root. Deploy first!\n", configFileName)
+	}
+
 	solcName := "solc"
 	if runtime.GOOS == "windows" {
 		solcName = "solc.exe"
 	}
 	compilerPath := filepath.Join(apiDir, "bin", solcName)
-	contractsRoot := filepath.Join(apiDir, "..", "contracts")
+	contractsRoot = filepath.Join(apiDir, "..", "contracts")
 	solSourceDir := filepath.Join(contractsRoot, "contracts")
-	outDir := filepath.Join(apiDir, "internal", "contract")
+	outDir = filepath.Join(apiDir, "internal", "contract")
 
 	defer cleanupArtifacts(outDir)
 

@@ -25,6 +25,20 @@ func (p *Provider) SetMerchantPubKey(auth *bind.TransactOpts, domain string, com
 	return tx.Hash(), nil
 }
 
+// GetNameFromAddress performs a reverse resolution to find the primary ENS name for an address.
+func (p *Provider) GetNameFromAddress(address common.Address) (string, error) {
+	name, err := ens.ReverseResolve(p.Client, address)
+	if err != nil {
+		return "", fmt.Errorf("failed to reverse resolve address %s: %w", address.Hex(), err)
+	}
+
+	if name == "" {
+		return "", fmt.Errorf("no primary ENS name set for address %s", address.Hex())
+	}
+
+	return name, nil
+}
+
 // GetMerchantPubKey fetch merchant public key text record from ENS.
 func (p *Provider) GetMerchantPubKey(domain string) (string, error) {
 	resolver, err := ens.NewResolver(p.Client, domain)
@@ -42,4 +56,12 @@ func (p *Provider) GetMerchantPubKey(domain string) (string, error) {
 	}
 
 	return key, nil
+}
+
+func (p *Provider) GetMerchantPubKeyByAddress(address common.Address) (string, error) {
+	domain, err := p.GetNameFromAddress(address)
+	if err != nil {
+		return "", err
+	}
+	return p.GetMerchantPubKey(domain)
 }

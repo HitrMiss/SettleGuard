@@ -1,13 +1,13 @@
 {
   "network": "sepolia",
   "contracts": {
-    "SettleGuard#Governance": "0x2e814CeBa9B63412552AC30D56c9bc326D707a94",
-    "SettleGuard#MockUSDC": "0xa9399a841da56fD9718c800e3082827AdE97d6ad",
-    "SettleGuard#BondVault": "0x20d2Cd4f77082683f7367Fd46A8BF54097Ac68Fe",
-    "SettleGuard#CategoryRegistry": "0x2F316264c65B557BcF17bE446F59Dd658C7894f2",
-    "SettleGuard#PaymentVault": "0x357EF41da52817F617aA2D0D34ceBB5DB08fb9Ca",
-    "SettleGuard#ProfileRegistry": "0x5cF065dd7B9b8B644e5F303Ee3CA7E6d8570336c",
-    "SettleGuard#SettlementEngine": "0x700C50363F845207d560462Bb4aDa20dB0d6763B"
+    "SettleGuard#Governance": "0x01d73aBdc204d7CFb4cdeF26498193461D69AbeE",
+    "SettleGuard#MockUSDC": "0x9Ad7E319DdC93A5C804e142823AF9c299AED5Be2",
+    "SettleGuard#BondVault": "0xf33D84609aE05bD272beA40f9750ad604b13D2c0",
+    "SettleGuard#CategoryRegistry": "0x2DDB0965dC919020A2cc6D189Bc6FC07f7cA3536",
+    "SettleGuard#PaymentVault": "0xDE105d951C31c3fD2C8a2e92a683a04beba1C24b",
+    "SettleGuard#ProfileRegistry": "0xB2ed83d3e0990423B43aA3958620c6Bb1E79E16d",
+    "SettleGuard#SettlementEngine": "0xb99918eC6a74fa7045e91E4821BbBFDa8370899A"
   },
   "categoryIds": {
     "DIGITAL_GOODS": "0x4449474954414c5f474f4f445300000000000000000000000000000000000000",

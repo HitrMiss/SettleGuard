@@ -2,8 +2,9 @@ package main
 
 import (
 	"SettleGuard/internal/api"
+	"SettleGuard/internal/config"
 	"SettleGuard/internal/contract"
-	"SettleGuard/internal/provider" // Re-added to use your RPC selection logic
+	"SettleGuard/internal/provider"
 	"SettleGuard/internal/repository"
 	"encoding/json"
 	"fmt"
@@ -15,14 +16,29 @@ import (
 )
 
 const (
-	VaultAddr      = "0x"
-	RegistryAddr   = "0xY"
+	VaultKey       = "SettleGuard#PaymentVault"
+	RegistryAddr   = "SettleGuard#CategoryRegistry"
 	SettlementAddr = "0x"
 	USDCAddr       = "0x"
 )
 
 func main() {
 	// Start me up
+	cfg, err := config.LoadConfig("cmd/api/backend_config.json")
+	if err != nil {
+		panic(err)
+	}
+
+	VaultAddr := cfg.Contracts[VaultKey]
+	registryAddr := cfg.Contracts["SettleGuard#CategoryRegistry"]
+
+	// Pulling your Category IDs
+	digitalGoodsID := cfg.CategoryIDs["DIGITAL_GOODS"]
+
+	fmt.Printf("Connected to %s\n", cfg.Network)
+	fmt.Printf("Registry Address: %s\n", registryAddr)
+	fmt.Printf("Digital Goods ID: %s\n", digitalGoodsID)
+
 	p, err := provider.NewProvider()
 	if err != nil {
 		log.Fatalf("🚨 Provider Error: %v", err)

@@ -17,6 +17,8 @@ contract SettlementEngine is ReentrancyGuard {
 
     error PreflightFailed(string reason);
     error Unauthorized();
+    error InvalidPacket();
+    error Expired();
 
     constructor(address _vault, address _categories, address _bondVault, address _profiles, address _gov) {
         vault = IPaymentVault(_vault);
@@ -39,14 +41,21 @@ contract SettlementEngine is ReentrancyGuard {
         profiles = IProfileRegistry(_profiles);
     }
 
-
+    // Pretty much just want to cry as I knew something was off and it was the r/s for the signing
     function deposit(
         uint256 _amount,
         address _merchantIdentity,
         address _merchantPayout,
         bytes32 _categoryId,
-        bytes32 _packetId
+        bytes32 _packetId,
+        uint64 _createdAt,
+        uint256 _r,
+        uint256 _s
     ) external nonReentrant {
+        bytes32 derivedId = keccak256(abi.encodePacked(_r, _s, _createdAt));
+        if (derivedId != _packetId) revert InvalidPacket();
+
+        if (block.timestamp > _createdAt + 86400) revert Expired();
         // merchant
         if (profiles.getScore(_merchantIdentity) == 0) {
             bondVault.lockRisk(_merchantIdentity, _amount);
@@ -56,19 +65,30 @@ contract SettlementEngine is ReentrancyGuard {
             bondVault.lockRisk(msg.sender, _amount);
         }
 
-        vault.lockFunds(msg.sender, _amount, _merchantIdentity, _merchantPayout, _categoryId, _packetId);
+
+        vault.lockFunds(msg.sender,
+            _amount,
+            _merchantIdentity,
+            _merchantPayout,
+            _categoryId,
+            _packetId,
+            _createdAt,
+            _r,
+            _s
+        );
     }
 
     function triggerSettlement(bytes32 _packetId) external onlyArbiter {
-        // Destructure the tuple from the vault
         (
-            address payer,
-            uint256 amount,
-            , // createdAt
-            address merchantIdentity,
-            , // categoryId
-            address merchantPayout,
-            IPaymentVault.Status status
+            address payer,            // 1
+            ,                         // 2: createdAt
+            ,                         // 3: status
+            address merchantIdentity, // 4
+            address merchantPayout,   // 5
+            uint256 amount,           // 6
+            ,                         // 7: categoryId
+            ,                         // 8: r
+        // 9: s (leave blank, no comma)
         ) = vault.getPaymentDetails(_packetId);
 
         if (profiles.getScore(merchantIdentity) == 0) {

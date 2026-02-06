@@ -8,27 +8,35 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
-// internal/contract/helper.go
-
-func EncodePaymentCall(
+// EncodeDepositCall generates the calldata for the user to call SettlementEngine.deposit
+func EncodeDepositCall(
 	amount *big.Int,
 	merchantIdentity common.Address,
 	merchantPayout common.Address,
 	categoryId [32]byte,
 	packetId [32]byte,
+	createdAt uint64,
+	r *big.Int,
+	s *big.Int,
 ) (string, error) {
-	parsedABI, err := abi.JSON(strings.NewReader(PaymentVaultMetaData.ABI))
+	parsedABI, err := abi.JSON(strings.NewReader(SettlementEngineMetaData.ABI))
 	if err != nil {
 		return "", err
 	}
 
-	inputData, err := parsedABI.Pack("lockFunds",
-		common.Address{},
+	inputData, err := parsedABI.Pack("deposit",
 		amount,
 		merchantIdentity,
 		merchantPayout,
 		categoryId,
 		packetId,
+		createdAt,
+		r,
+		s,
 	)
-	return "0x" + common.Bytes2Hex(inputData), err
+	if err != nil {
+		return "", err
+	}
+
+	return "0x" + common.Bytes2Hex(inputData), nil
 }
