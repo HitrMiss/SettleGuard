@@ -70,13 +70,13 @@ func HandleCheckout(
 		http.Error(w, "User address header missing", http.StatusUnauthorized)
 		return
 	}
-
 	catId := common.HexToHash(req.CategoryId)
-	isValid, err := repository.IsCategoryValid(client, registryAddr, catId)
-	if err != nil || !isValid {
-		http.Error(w, "Category is invalid or disabled in Registry", http.StatusForbidden)
-		return
-	}
+	//catId := common.HexToHash(req.CategoryId)
+	//isValid, err := repository.IsCategoryValid(client, registryAddr, catId)
+	//if err != nil || !isValid {
+	//	http.Error(w, "Category is invalid or disabled in Registry", http.StatusForbidden)
+	//	return
+	//}
 
 	createdAt := uint64(time.Now().Unix())
 	total := 0.0

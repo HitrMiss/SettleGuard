@@ -18,8 +18,8 @@ import (
 const (
 	VaultKey       = "SettleGuard#PaymentVault"
 	RegistryAddr   = "SettleGuard#CategoryRegistry"
-	SettlementAddr = "0x"
-	USDCAddr       = "0x"
+	SettlementAddr = "SettleGuard#SettlementEngine"
+	USDCAddr       = "SettleGuard#MockUSDC"
 )
 
 func main() {
