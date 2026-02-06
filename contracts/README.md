@@ -56,3 +56,8 @@ Grants {INITIAL_ADMINS}
 ```shell
 npx hardhat run scripts/setupEnvironment.js --network sepolia
 ```
+
+### Run Categories
+```shell
+npx hardhat run scripts/seedCategories.js --network sepolia
+```
