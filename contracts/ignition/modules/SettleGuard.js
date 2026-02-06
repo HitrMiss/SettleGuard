@@ -1,16 +1,12 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
-module.exports = buildModule("SettleGuardAlpha", (m) => {
+module.exports = buildModule("SettleGuard", (m) => {
     const deployer = m.getAccount(0);
     const MIN_SOLE_ADMIN_AGE = m.getParameter("minAdminAge", 0n);
     const admins = m.getParameter("adminList");
 
     //Mock USDC
     const mockUsdc = m.contract("MockUSDC");
-
-    for (const admin of admins) {
-        m.call(mockUsdc, "mint", [admin, 10000n]);
-    }
 
     // Core Governance
     const governance =
@@ -52,7 +48,7 @@ module.exports = buildModule("SettleGuardAlpha", (m) => {
     m.call(bondVault, "setSettlementEngine", [settlementEngine]);
     m.call(paymentVault, "setEngine", [settlementEngine]);
 
-    // Pre-set trust score for deployer to test the "No-Stake" path [cite: 8, 13]
+    // Preset trust score
     m.call(profileRegistry, "setScore", [deployer, 10]);
 
     return {

@@ -38,7 +38,21 @@ MIN_SOLE_ADMIN_AGE=0
 ETHERSCAN_API_KEY="InsertKey"
 ```
 
-### Deploy?
+### Deploy & Export
 ```shell
-npx hardhat ignition deploy ./ignition/modules/SettleGuard.js --network sepolia && npx hardhat run scripts/exportAddresses.js --network sepolia
+npx hardhat ignition deploy ignition/modules/SettleGuard.js --network sepolia --parameters ignition/parameters.json && npx hardhat run scripts/exportAddresses.js --network sepolia
+```
+### Deploy Contacts
+```shell
+npx hardhat ignition deploy ignition/modules/SettleGuard.js --network sepolia --parameters ignition/parameters.json
+```
+### Export Addresses for API
+```shell
+npx hardhat run scripts/exportAddresses.js --network sepolia
+```
+### Run Once
+Deposits fake USDC into wallets for admins {INITIAL_ADMINS}
+Grants {INITIAL_ADMINS} 
+```shell
+npx hardhat run scripts/setupEnvironment.js --network sepolia
 ```
