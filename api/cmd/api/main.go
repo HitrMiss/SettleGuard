@@ -16,10 +16,10 @@ import (
 )
 
 const (
-	VaultKey       = "SettleGuard#PaymentVault"
-	RegistryAddr   = "SettleGuard#CategoryRegistry"
-	SettlementAddr = "SettleGuard#SettlementEngine"
-	USDCAddr       = "SettleGuard#MockUSDC"
+	VaultKey      = "SettleGuard#PaymentVault"
+	RegistryKey   = "SettleGuard#CategoryRegistry"
+	SettlementKey = "SettleGuard#SettlementEngine"
+	USDCKey       = "SettleGuard#MockUSDC"
 )
 
 func main() {
@@ -30,13 +30,15 @@ func main() {
 	}
 
 	VaultAddr := cfg.Contracts[VaultKey]
-	registryAddr := cfg.Contracts["SettleGuard#CategoryRegistry"]
+	RegistryAddr := cfg.Contracts[RegistryKey]
+	SettlementAddr := cfg.Contracts[SettlementKey]
+	USDCAddr := cfg.Contracts[USDCKey]
 
 	// Pulling your Category IDs
 	digitalGoodsID := cfg.CategoryIDs["DIGITAL_GOODS"]
 
 	fmt.Printf("Connected to %s\n", cfg.Network)
-	fmt.Printf("Registry Address: %s\n", registryAddr)
+	fmt.Printf("Registry Address: %s\n", RegistryAddr)
 	fmt.Printf("Digital Goods ID: %s\n", digitalGoodsID)
 
 	p, err := provider.NewProvider()
