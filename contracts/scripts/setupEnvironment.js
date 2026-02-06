@@ -21,8 +21,8 @@ async function main() {
 
     for (const admin of adminAddresses) {
         console.log(`\nProcessing Admin: ${admin}`);
-
-        const mintTx = await mockUsdc.mint(admin, 1000_000000n);
+        //I think I messed this up and minted 1B not 1000
+        const mintTx = await mockUsdc.mint(admin, 1000n);
         await mintTx.wait();
         console.log(`  ✅ Minted 1k USDC`);
 

@@ -2,3 +2,7 @@
 /bin/
 /internal/contract/*.abi
 /internal/contract/*.bin
+
+# do not upload the private keys! ;)
+*.pem
+*.pub

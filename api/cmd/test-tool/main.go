@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"SettleGuard/api/internal/provider"
+	"SettleGuard/internal/provider"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -18,7 +18,7 @@ import (
 func main() {
 	// 1. Initial Setup
 	network := "sepolia" // Default
-	p, err := provider.NewProvider(network)
+	p, err := provider.NewProvider()
 	if err != nil {
 		log.Fatalf("[-] Connection failed: %v", err)
 	}
@@ -30,7 +30,7 @@ func main() {
 		fmt.Printf("Connected to: %s [%s]\n", p.URL, network)
 		fmt.Println("1. Test ENS Merchant Lookup")
 		fmt.Printf("2. Check BondVault Balance (TODO)\n")
-		fmt.Println("3. Change Network (Current: " + network + ")")
+		fmt.Println("4. Generate Merchant Keys")
 		fmt.Println("q. Quit")
 		fmt.Print("Select an option: ")
 
@@ -52,15 +52,6 @@ func main() {
 
 		case "2":
 			fmt.Println("🏗️  BondVault logic is coming in the next file (internal/fraud/engine.go)...")
-
-		case "3":
-			fmt.Print("Enter network (mainnet/sepolia): ")
-			net, _ := reader.ReadString('\n')
-			network = strings.TrimSpace(net)
-			p, _ = provider.NewProvider(network)
-			fmt.Printf("🔄 Switched to %s\n", network)
-
-			// Inside cmd/test-tool/main.go switch:
 
 		case "4":
 			fmt.Println("[*] Generating P-256 Identity...")
