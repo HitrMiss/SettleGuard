@@ -1,0 +1,18 @@
+{
+  "packetId": "190f339f1bd74de16d4b52b736a8e40cfae60744fb87045b62467b3c2725017411aba5127c5984bbf076a4f058713bcf3e4b6748188f4451451375a054fe05d1",
+  "payer": "0x979c8e355a7888fD5A75325BafEe89A1D0176016",
+  "items": [
+    {
+      "id": "gk-featured-1",
+      "name": "Chef's Pick Combo",
+      "price": 21.99,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    }
+  ],
+  "amount": "21990000",
+  "createdAt": 1770436666,
+  "categoryId": "0x464f4f445f424556455241474500000000000000000000000000000000000000",
+  "status": "pending"
+}

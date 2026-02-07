@@ -1,0 +1,34 @@
+{
+  "packetId": "94fea0515edb58866828d301ba559b5d6ad95a579ba05543d041674ce5f8fcf8f15703b492822d7484a8a64b4c1322b5a714ca2f498002356c74aac2c843fe55",
+  "payer": "0x979c8e355a7888fD5A75325BafEe89A1D0176016",
+  "items": [
+    {
+      "id": "gk-featured-1",
+      "name": "Chef's Pick Combo",
+      "price": 21.99,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-classic",
+      "name": "Classic Smash Burger",
+      "price": 11.49,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-shake",
+      "name": "Vanilla Shake",
+      "price": 5.49,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    }
+  ],
+  "amount": "38970000",
+  "createdAt": 1770425394,
+  "categoryId": "0x464f4f445f424556455241474500000000000000000000000000000000000000",
+  "status": "pending"
+}

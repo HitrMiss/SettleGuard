@@ -1,0 +1,42 @@
+{
+  "packetId": "92e128309a14edeadf539f38ff02e674c802e63f186dfe29e7ea4b4a68826b2311085991b83c934d3e970a650316632c98dd9343b8dec9d41fef3ac78f05b43c",
+  "payer": "0x979c8e355a7888fD5A75325BafEe89A1D0176016",
+  "items": [
+    {
+      "id": "gk-classic",
+      "name": "Classic Smash Burger",
+      "price": 11.49,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-chicken",
+      "name": "Crispy Chicken Sandwich",
+      "price": 12.29,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-fries",
+      "name": "Seasoned Fries",
+      "price": 4.49,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-soda",
+      "name": "Fountain Soda",
+      "price": 2.79,
+      "quantity": 1,
+      "description": "",
+      "image": ""
+    }
+  ],
+  "amount": "31060000",
+  "createdAt": 1770434782,
+  "categoryId": "0x464f4f445f424556455241474500000000000000000000000000000000000000",
+  "status": "pending"
+}

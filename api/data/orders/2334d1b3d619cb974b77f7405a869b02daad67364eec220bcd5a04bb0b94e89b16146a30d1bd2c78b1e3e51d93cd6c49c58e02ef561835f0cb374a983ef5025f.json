@@ -1,0 +1,34 @@
+{
+  "packetId": "2334d1b3d619cb974b77f7405a869b02daad67364eec220bcd5a04bb0b94e89b16146a30d1bd2c78b1e3e51d93cd6c49c58e02ef561835f0cb374a983ef5025f",
+  "payer": "0x979c8e355a7888fD5A75325BafEe89A1D0176016",
+  "items": [
+    {
+      "id": "gk-featured-1",
+      "name": "Chef's Pick Combo",
+      "price": 21.99,
+      "quantity": 0,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-bites",
+      "name": "Chicken Bites (8pc)",
+      "price": 6.79,
+      "quantity": 0,
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "gk-shake",
+      "name": "Vanilla Shake",
+      "price": 5.49,
+      "quantity": 0,
+      "description": "",
+      "image": ""
+    }
+  ],
+  "amount": "34269999",
+  "createdAt": 1770419901,
+  "categoryId": "0x464f4f445f424556455241474500000000000000000000000000000000000000",
+  "status": "pending"
+}
