@@ -55,6 +55,13 @@ func (w *ValidationWorker) processDiskQueue() {
 			log.Printf("Failed to fetch on-chain details for %s: %v", packetIdStr, err)
 			continue
 		}
+		if details.MerchantIdentity.Hex() == "0x0000000000000000000000000000000000000000" {
+			log.Printf("❌ SIGNATURE FRAUD Packet Not Found: Packet %s", packetIdStr)
+			w.moveToFolder(file, "failed", "Invalid Signature / Fraud Detected")
+			continue
+		}
+
+		// log.Printf("getPaymentDetails returned: %+v", details)
 
 		if details.Status != 1 {
 			continue
@@ -83,7 +90,7 @@ func (w *ValidationWorker) processDiskQueue() {
 			w.moveToFolder(file, "failed", "Invalid Signature / Fraud Detected")
 		} else {
 			log.Printf("✅ VALIDATED: Packet %s", packetIdStr)
-			w.moveToFolder(file, "validated", "Invalid Signature / Fraud Detected")
+			w.moveToFolder(file, "validated", "Validated Signature")
 		}
 	}
 }
@@ -92,6 +99,8 @@ func (w *ValidationWorker) processDiskQueue() {
 func (w *ValidationWorker) moveToFolder(originalPath, subFolder, reason string) {
 	fileName := filepath.Base(originalPath)
 	newPath := filepath.Join(w.StoragePath, subFolder, fileName)
+	dir := "./data/orders/" + subFolder
+	os.MkdirAll(dir, 0755)
 
 	err := os.Rename(originalPath, newPath)
 	if err != nil {
