@@ -83,7 +83,7 @@ func (w *ValidationWorker) processDiskQueue() {
 			w.moveToFolder(file, "failed", "Invalid Signature / Fraud Detected")
 		} else {
 			log.Printf("✅ VALIDATED: Packet %s", packetIdStr)
-			// TODO: Add the code
+			w.moveToFolder(file, "validated", "Invalid Signature / Fraud Detected")
 		}
 	}
 }

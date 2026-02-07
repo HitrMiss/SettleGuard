@@ -31,9 +31,9 @@ func main() {
 	}
 
 	VaultAddr := cfg.Contracts[VaultKey]
-	RegistryAddr := cfg.Contracts[RegistryKey]
-	SettlementAddr := cfg.Contracts[SettlementKey]
-	USDCAddr := cfg.Contracts[USDCKey]
+	//RegistryAddr := cfg.Contracts[RegistryKey]
+	//SettlementAddr := cfg.Contracts[SettlementKey]
+	//USDCAddr := cfg.Contracts[USDCKey]
 
 	blockchainProvider, err := provider.NewProvider()
 	if err != nil {

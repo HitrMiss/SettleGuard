@@ -12,8 +12,8 @@ BLOCKCHAIN=eth-mainnet
 ```
 eth-sepolia       - TestNet
 eth-mainnet       - Ethereum Mainnet
-polygon-amoy      - Polygon Mainnet
-polygon-mainnet   - Mainnet
+polygon-amoy      - Polygon Testnet
+polygon-mainnet   - Polygon Mainnet
 ```
 
 ### Linux
