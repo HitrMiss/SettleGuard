@@ -86,8 +86,12 @@ func HandleApprovalCheck(w http.ResponseWriter, r *http.Request, client *ethclie
 		fmt.Printf("❌ Failed to bind mUSDC: %v\n", err)
 	}
 	allowance, err := usdc.Allowance(nil, common.HexToAddress(userAddr), vaultAddrHex)
+	fmt.Printf(allowance.String(), err)
 
-	isAuthorized := err == nil && allowance.Cmp(big.NewInt(0)) > 0
+	isAuthorized := false
+	if err == nil && allowance != nil {
+		isAuthorized = allowance.Sign() > 0
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]bool{"authorized": isAuthorized})

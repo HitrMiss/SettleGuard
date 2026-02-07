@@ -51,6 +51,12 @@ func main() {
 	// Auth Routes
 	http.HandleFunc("/api/get-nonce", enableCORS(api.HandleGetNonce))
 	http.HandleFunc("/api/verify", enableCORS(api.HandleVerifySignature))
+	http.HandleFunc("/api/check-approval", enableCORS(func(w http.ResponseWriter, r *http.Request) {
+		api.HandleApprovalCheck(
+			w,
+			r,
+			ethClient)
+	}))
 
 	http.HandleFunc("/api/checkout", enableCORS(func(w http.ResponseWriter, r *http.Request) {
 		api.HandleCheckout(

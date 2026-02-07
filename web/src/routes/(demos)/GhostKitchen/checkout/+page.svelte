@@ -229,11 +229,15 @@
       // Sanitize (strip gas + fee overrides)
       const txReq = sanitizeTxForMetamask(rawTx);
 
+      // Optional: preflight estimate (helps diagnose reverts / chain issues)
+      lastGasEstimate = '0x3d090';
+      txReq.gas = '0x3D090';
+      txReq.gasLimit = '0x7A120';
+      txReq.gasPrice = "0x59682f00";
       // Debug: show the actual tx we will send
       lastTxRequest = JSON.stringify(txReq, null, 2);
 
-      // Optional: preflight estimate (helps diagnose reverts / chain issues)
-      lastGasEstimate = await estimateGas(txReq);
+
 
       // Send via MetaMask
       const hash = await sendTxFromApi(txReq);

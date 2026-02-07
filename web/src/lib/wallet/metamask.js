@@ -45,21 +45,21 @@ export async function sendTxFromApi(txRequest) {
   if (!hasMetaMask()) throw new Error("MetaMask is not installed");
   if (!txRequest?.to) throw new Error("Missing txRequest.to");
 
-  const clean = sanitizeTxRequest(txRequest);
+  // const clean = sanitizeTxRequest(txRequest);
 
   // Debug: if gas is still present, something upstream is injecting it
-  if ("gas" in clean || "gasLimit" in clean) {
-    throw new Error(
-      `Internal: txRequest still includes gas/gasLimit after sanitize. tx=${JSON.stringify(clean)}`
-    );
-  }
+  // if ("gas" in clean || "gasLimit" in clean) {
+  //   throw new Error(
+  //     `Internal: txRequest still includes gas/gasLimit after sanitize. tx=${JSON.stringify(clean)}`
+  //   );
+  // }
 
   // Optional: preflight estimate to catch revert/chain issues early
   // (If you don't want this, you can delete this block.)
   try {
     await window.ethereum.request({
       method: "eth_estimateGas",
-      params: [clean]
+      params: [txRequest]
     });
   } catch (e) {
     // If estimate fails due to revert, MetaMask can still show useful error
@@ -69,7 +69,7 @@ export async function sendTxFromApi(txRequest) {
 
   const hash = await window.ethereum.request({
     method: "eth_sendTransaction",
-    params: [clean]
+    params: [txRequest]
   });
 
   return hash; // tx hash
