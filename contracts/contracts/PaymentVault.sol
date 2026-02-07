@@ -89,7 +89,7 @@ contract PaymentVault is IPaymentVault, ReentrancyGuard {
         uint256 r,
         uint256 s
     ) {
-        Payment storage p = payments[_packetId]; // Assuming 'payments' is your mapping
+        Payment storage p = payments[_packetId];
         return (
             p.payer,
             p.createdAt,

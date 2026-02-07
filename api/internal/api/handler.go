@@ -72,11 +72,11 @@ func HandleCheckout(
 	}
 	catId := common.HexToHash(req.CategoryId)
 	//catId := common.HexToHash(req.CategoryId)
-	//isValid, err := repository.IsCategoryValid(client, registryAddr, catId)
-	//if err != nil || !isValid {
-	//	http.Error(w, "Category is invalid or disabled in Registry", http.StatusForbidden)
-	//	return
-	//}
+	isValid, err := repository.IsCategoryValid(client, registryAddr, catId)
+	if err != nil || !isValid {
+		http.Error(w, "Category is invalid or disabled in Registry", http.StatusForbidden)
+		return
+	}
 
 	createdAt := uint64(time.Now().Unix())
 	total := 0.0
@@ -119,9 +119,7 @@ func HandleCheckout(
 	}
 	packetBytes, err := hex.DecodeString(strings.TrimPrefix(signedPacketId, "0x"))
 	if err != nil {
-		// 1. Send a 400 Bad Request to the user
 		http.Error(w, "Invalid packet ID format", http.StatusBadRequest)
-		// 2. Stop execution here
 		return
 	}
 	var packetIdFixed [32]byte
