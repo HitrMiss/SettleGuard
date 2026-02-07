@@ -1,16 +1,17 @@
 package api
 
 import (
+	"SettleGuard/internal/config"
+	"SettleGuard/internal/provider"
 	"crypto/ecdsa"
 	"crypto/rand"
 	"crypto/sha256"
-	"encoding/hex"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"log"
 	"math/big"
 	"net/http"
-	"strings"
 	"time"
 
 	"SettleGuard/internal/contract"
@@ -18,6 +19,8 @@ import (
 	"SettleGuard/internal/verifier"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
+
 	// "github.com/ethereum/go-ethereum/crypto" switched signing code
 	"github.com/ethereum/go-ethereum/ethclient"
 )
@@ -39,6 +42,14 @@ type CheckoutResponse struct {
 	EncodedABI     string `json:"encodedAbi"`
 }
 
+// I need to stop copying and pasting this
+const (
+	VaultKey      = "SettleGuard#PaymentVault"
+	RegistryKey   = "SettleGuard#CategoryRegistry"
+	SettlementKey = "SettleGuard#SettlementEngine"
+	USDCKey       = "SettleGuard#MockUSDC"
+)
+
 var merchantKey *ecdsa.PrivateKey
 
 func InitMerchant(pemPath string) {
@@ -47,6 +58,39 @@ func InitMerchant(pemPath string) {
 		log.Fatal("Critical: Could not load merchant PEM", err)
 	}
 	merchantKey = key
+}
+
+func HandleApprovalCheck(w http.ResponseWriter, r *http.Request, client *ethclient.Client) {
+	userAddr := r.URL.Query().Get("address")
+
+	cfg, err := config.LoadConfig("cmd/api/backend_config.json")
+	if err != nil {
+		panic(err)
+	}
+
+	vaultAddrHex := common.HexToAddress(cfg.Contracts[VaultKey])
+	usdcHex := common.HexToAddress(cfg.Contracts[USDCKey])
+	p, err := provider.NewProvider()
+
+	if err != nil {
+		log.Fatalf("[-] Connection failed: %v", err)
+	}
+	//vault, err := contract.NewPaymentVault(vaultAddrHex, p.Client)
+	//if err != nil {
+	//	fmt.Printf("❌ Failed to bind Vault: %v\n", err)
+	//	break
+	//}
+
+	usdc, err := contract.NewMockUSDC(usdcHex, p.Client)
+	if err != nil {
+		fmt.Printf("❌ Failed to bind mUSDC: %v\n", err)
+	}
+	allowance, err := usdc.Allowance(nil, common.HexToAddress(userAddr), vaultAddrHex)
+
+	isAuthorized := err == nil && allowance.Cmp(big.NewInt(0)) > 0
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]bool{"authorized": isAuthorized})
 }
 
 // HandleCheckout processes the cart, validates on-chain rules, and returns encoded ABI
@@ -104,11 +148,11 @@ func HandleCheckout(
 		http.Error(w, "Server configuration error: Key not found", 500)
 		return
 	}
-	signedPacketId, err := verifier.SignPacket(merchantPrivKey, manifest)
-	if err != nil {
-		http.Error(w, "Signing failed", http.StatusInternalServerError)
-		return
-	}
+	//signedPacketId, err := verifier.SignPacket(merchantPrivKey, manifest)
+	//if err != nil {
+	//	http.Error(w, "Signing failed", http.StatusInternalServerError)
+	//	return
+	//}
 
 	// We get R and S values
 	hash := sha256.Sum256([]byte(manifest))
@@ -117,21 +161,33 @@ func HandleCheckout(
 		http.Error(w, "Signing failed", 500)
 		return
 	}
-	packetBytes, err := hex.DecodeString(strings.TrimPrefix(signedPacketId, "0x"))
-	if err != nil {
-		http.Error(w, "Invalid packet ID format", http.StatusBadRequest)
-		return
-	}
-	var packetIdFixed [32]byte
+	//packetBytes, err := hex.DecodeString(strings.TrimPrefix(signedPacketId, "0x"))
+	//if err != nil {
+	//	http.Error(w, "Invalid packet ID format", http.StatusBadRequest)
+	//	return
+	//}
+	//var packetIdFixed [32]byte
+	//
+	//copy(packetIdFixed[:], packetBytes)
 
-	copy(packetIdFixed[:], packetBytes)
+	rBytes := common.LeftPadBytes(rVal.Bytes(), 32)
+	sBytes := common.LeftPadBytes(sVal.Bytes(), 32)
+	tBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(tBytes, timestamp)
+
+	// Concatenate r + s + timestamp
+	packed := append(rBytes, sBytes...)
+	packed = append(packed, tBytes...)
+
+	// Hash it (Keccak256, NOT SHA256)
+	packetIdHash := crypto.Keccak256Hash(packed)
 
 	encodedData, err := contract.EncodeDepositCall(
 		amountUSDC,
 		common.HexToAddress(req.MerchantIdentity),
 		common.HexToAddress(req.MerchantPayout),
 		catId,
-		packetIdFixed,
+		packetIdHash,
 		timestamp,
 		rVal,
 		sVal,
@@ -150,7 +206,7 @@ func HandleCheckout(
 	//	req.CategoryId,
 	//)
 	err = repository.SaveOrderRecord(
-		signedPacketId,
+		packetIdHash.String(),
 		payerAddrStr,
 		req.Items,
 		amountUSDC.String(),
@@ -163,7 +219,7 @@ func HandleCheckout(
 	}
 
 	resp := CheckoutResponse{
-		PacketId:       signedPacketId,
+		PacketId:       packetIdHash.Hex(),
 		Amount:         "0x" + amountUSDC.Text(16),
 		USDCAddress:    usdcAddr.Hex(),
 		TargetContract: engineAddr.Hex(),

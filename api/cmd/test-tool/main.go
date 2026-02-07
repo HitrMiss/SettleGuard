@@ -83,7 +83,6 @@ func main() {
 			vaultAddrHex := common.HexToAddress(VaultAddr)
 
 			// Bind the contract
-			// Ensure you have the 'contract' package imported
 			vault, err := contract.NewPaymentVault(vaultAddrHex, p.Client)
 			if err != nil {
 				fmt.Printf("❌ Failed to bind Vault: %v\n", err)
