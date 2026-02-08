@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* =========================
+   Ghost Kitchen+ Theme
+   ========================= */
+
+:root {
+  color-scheme: dark;
+}
+
+/* ✅ Prevent layout shift when page height changes (cart/order summary updates) */
+html {
+  scrollbar-gutter: stable; /* modern fix */
+}
+
+body {
+  overflow-y: scroll; /* fallback: always reserve scrollbar space */
+}
+
+html,
+body {
+  background-color: #0b0f14;
+  color: #e6ebf2;
+}
+
+/* Containers */
+.container {
+  @apply max-w-6xl mx-auto px-4;
+}
+
+/* Typography */
+.muted {
+  color: #94a3b8;
+}
+
+/* Divider (divider ONLY — do not use as a container) */
+.hr {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+}
+
+/* Surfaces */
+.card {
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.92), rgba(15, 23, 42, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.card-soft {
+  background: rgba(17, 24, 39, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 138, 30, 0.25);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 0.62rem 1rem;
+  background: rgba(148, 163, 184, 0.12);
+  color: #e6ebf2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+  user-select: none;
+}
+.btn:hover {
+  background: rgba(148, 163, 184, 0.18);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: linear-gradient(180deg, #ff9a3d, #ff8a1e);
+  color: #0b0f14;
+  border: 1px solid rgba(255, 138, 30, 0.55);
+  box-shadow: 0 0 0 0 rgba(255, 138, 30, 0.4);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 0 6px rgba(255, 138, 30, 0.15);
+}
+.btn-primary:active { transform: translateY(1px); }
+
+.btn-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 0.62rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.0);
+  color: #e6ebf2;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.btn-quiet:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+.btn-danger {
+  background: rgba(248, 113, 113, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  color: #e6ebf2;
+}
+
+.btn:disabled, .btn-primary:disabled, .btn-quiet:disabled, .btn-danger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Inputs */
+.input {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  color: #e6ebf2;
+}
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 138, 30, 0.35);
+  border-color: rgba(255, 138, 30, 0.35);
+}
+.input::placeholder { color: rgba(148,163,184,0.75); }
+
+/* Navigation */
+.navlink-muted {
+  color: #94a3b8;
+  font-weight: 700;
+  transition: color 0.12s ease;
+}
+.navlink-muted:hover { color: #ff8a1e; }
+
+/* Category pills */
+.pills {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  background: rgba(148, 163, 184, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(230, 235, 242, 0.92);
+  transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+  white-space: nowrap;
+}
+.pill:hover {
+  background: rgba(148, 163, 184, 0.16);
+  border-color: rgba(255, 138, 30, 0.22);
+}
+.pill-active {
+  background: rgba(255, 138, 30, 0.16);
+  border-color: rgba(255, 138, 30, 0.50);
+  box-shadow: 0 0 0 6px rgba(255, 138, 30, 0.10);
+  color: #e6ebf2;
+}
+
+/* Thumbnail tile */
+.thumb {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background:
+    radial-gradient(140px 80px at 20% 30%, rgba(158, 198, 231, 0.12), transparent 65%),
+    radial-gradient(140px 80px at 80% 20%, rgba(255, 138, 30, 0.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+}

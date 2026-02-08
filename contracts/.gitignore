@@ -1,0 +1,20 @@
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
+
+# Ignore Deployments
+ignition/deployments/
+
+# Create by the ENV
+ignition/parameters.json

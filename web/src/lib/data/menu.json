@@ -1,0 +1,89 @@
+{
+  "restaurant": {
+    "name": "Ghost Kitchen+",
+    "etaMin": 20,
+    "etaMax": 35,
+    "deliveryFee": 3.99,
+    "serviceFee": 1.49,
+    "promo": "Free delivery over $35 (demo)"
+  },
+  "merchant": {
+    "id": "gk-001",
+    "name": "Ghost Kitchen+",
+    "trustTier": "new",
+    "bondLevel": 15
+  },
+  "categories": [
+    { "id": "featured", "name": "Featured" },
+    { "id": "burgers", "name": "Burgers" },
+    { "id": "sides", "name": "Sides" },
+    { "id": "drinks", "name": "Drinks" },
+    { "id": "dessert", "name": "Dessert" }
+  ],
+  "items": [
+    {
+      "id": "gk-featured-1",
+      "categoryId": "featured",
+      "name": "Chef's Pick Combo",
+      "description": "Burger + fries + drink. Good for testing higher totals.",
+      "price": 21.99,
+	  "image": "/brand/menu/classic-combo.png"
+    },
+    {
+      "id": "gk-classic",
+      "categoryId": "burgers",
+      "name": "Classic Smash Burger",
+      "description": "Smashed beef, cheddar, pickles, house sauce, lettuce.",
+      "price": 11.49,
+	  "image": "/brand/menu/classic-sandwich.png"
+    },
+    {
+      "id": "gk-double",
+      "categoryId": "burgers",
+      "name": "Double Stack Deluxe",
+      "description": "Two patties, cheddar, onion, pickles, special sauce.",
+      "price": 15.99,
+	  "image": "/brand/menu/double-sandwich.png"
+    },
+    {
+      "id": "gk-chicken",
+      "categoryId": "burgers",
+      "name": "Crispy Chicken Sandwich",
+      "description": "Crispy chicken, slaw, spicy mayo.",
+      "price": 12.29,
+	  "image": "/brand/menu/chicken-sandwich.png"
+    },
+    {
+      "id": "gk-fries",
+      "categoryId": "sides",
+      "name": "Seasoned Fries",
+      "description": "Crispy fries with house seasoning.",
+      "price": 4.49,
+	  "image": "/brand/menu/fries.png"
+    },
+    {
+      "id": "gk-bites",
+      "categoryId": "sides",
+      "name": "Chicken Bites (8pc)",
+      "description": "Perfect for 'missing item' resolution demo flows.",
+      "price": 6.79,
+	  "image": "/brand/menu/chicken-bites.png"
+    },
+    {
+      "id": "gk-soda",
+      "categoryId": "drinks",
+      "name": "Fountain Soda",
+      "description": "Cola, lemon-lime, root beer.",
+      "price": 2.79,
+	  "image": "/brand/menu/cola-pop.png"
+    },
+    {
+      "id": "gk-shake",
+      "categoryId": "dessert",
+      "name": "Vanilla Shake",
+      "description": "Thick shake, classic vanilla.",
+      "price": 5.49,
+	  "image": "/brand/menu/vanilla-shake.png"
+    }
+  ]
+}
